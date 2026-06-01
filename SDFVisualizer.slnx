@@ -1,0 +1,7 @@
+<Solution>
+  <Project Path="sdfvisualizer.client/sdfvisualizer.client.esproj">
+    <Build />
+    <Deploy />
+  </Project>
+  <Project Path="SDFVisualizer.Server/SDFVisualizer.Server.csproj" />
+</Solution>
