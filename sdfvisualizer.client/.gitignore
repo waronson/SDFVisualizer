@@ -22,3 +22,6 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Local graph store (runtime data, created when the dev server runs from here)
+App_Data/

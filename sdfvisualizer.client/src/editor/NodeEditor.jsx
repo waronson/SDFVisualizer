@@ -14,12 +14,22 @@ const PALETTE = Object.entries(NODE_DEFS)
         return acc;
     }, {});
 
-// Left panel: the graph canvas plus a toolbar for adding nodes.
-export default function NodeEditor({ nodes, edges, onNodesChange, onEdgesChange, onConnect, onAddNode }) {
+// Left panel: the file menu, a palette for adding nodes, and the graph canvas.
+export default function NodeEditor({
+    nodes,
+    edges,
+    onNodesChange,
+    onEdgesChange,
+    onConnect,
+    onAddNode,
+    menuSlot,
+    graphKey,
+}) {
     const palette = useMemo(() => Object.entries(PALETTE), []);
 
     return (
         <div className="editor">
+            {menuSlot}
             <div className="palette">
                 {palette.map(([category, items]) => (
                     <div className="palette-group" key={category}>
@@ -38,6 +48,7 @@ export default function NodeEditor({ nodes, edges, onNodesChange, onEdgesChange,
             </div>
             <div className="editor-canvas">
                 <ReactFlow
+                    key={graphKey}
                     nodes={nodes}
                     edges={edges}
                     onNodesChange={onNodesChange}

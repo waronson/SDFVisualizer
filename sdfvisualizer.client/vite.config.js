@@ -34,6 +34,10 @@ if (!fs.existsSync(certFilePath) || !fs.existsSync(keyFilePath)) {
     }
 }
 
+// Backend (Kestrel) URL the dev server proxies API calls to.
+const target = env.ASPNETCORE_HTTPS_PORT ? `https://localhost:${env.ASPNETCORE_HTTPS_PORT}` :
+    env.ASPNETCORE_URLS ? env.ASPNETCORE_URLS.split(';')[0] : 'https://localhost:7149';
+
 // https://vitejs.dev/config/
 export default defineConfig({
     plugins: [plugin()],
@@ -43,8 +47,14 @@ export default defineConfig({
         }
     },
     server: {
-        // The SDF visualizer runs entirely client-side; no backend proxy is
-        // needed. Re-add a `proxy` entry here if/when API routes are introduced.
+        // Forward graph save/load API calls to the ASP.NET backend in dev.
+        proxy: {
+            '^/api': {
+                target,
+                secure: false,
+                changeOrigin: true
+            }
+        },
         port: parseInt(env.DEV_SERVER_PORT || '53685'),
         https: {
             key: fs.readFileSync(keyFilePath),
